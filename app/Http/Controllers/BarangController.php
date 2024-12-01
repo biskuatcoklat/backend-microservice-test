@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\Storage;
 class BarangController extends Controller
 {
     public function index()
-    {
-        return Barang::with('kategori')->get();
-    }
+{
+    return Barang::with('kategori')->get()->map(function ($barang) {
+        $barang->gambar = $barang->gambar ? asset('storage/' . $barang->gambar) : null;
+        return $barang;
+    });
+}
 
     public function store(Request $request)
 {
